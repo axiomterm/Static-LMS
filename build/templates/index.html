@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Courses · UTIC Training</title>
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand bg-body-tertiary border-bottom">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">UTIC Training</a>
+      <span class="navbar-text d-inline-flex align-items-center gap-2 user-header" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="user-name"></span>
+      </span>
+    </div>
+  </nav>
+
+  <main class="container my-4">
+    <h1 class="h2 mb-4">Course Catalog</h1>
+
+    {{filters}}
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 courses-grid">
+      {{cards}}
+    </div>
+
+    <p class="no-results text-secondary mt-3" hidden><em>No courses match the selection.</em></p>
+  </main>
+
+  <footer class="container py-4">
+    <small class="text-secondary">UTIC Training · {{total}} course(s) · Generated on {{date}}</small>
+  </footer>
+
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/filters.js"></script>
+  <script src="assets/js/completion.js"></script>
+</body>
+</html>
