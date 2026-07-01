@@ -36,7 +36,8 @@ utic_formacion/
 │  └─ categories.json       Controlled vocabulary of categories
 ├─ build/
 │  └─ templates/            HTML templates (index.html, course.html)
-├─ build.ps1                Generator (PowerShell 7+)
+├─ build.ps1                Generator (PowerShell 7+) — recommended
+├─ build5.ps1               Same generator for Windows PowerShell 5.1 (fallback)
 ├─ data/                    ←—— OUTSIDE the web root. Do NOT publish to IIS
 │  ├─ schema.sql            SQL Server schema (run once to provision the database)
 │  └─ README.txt
@@ -180,8 +181,15 @@ On domain-joined machines, the user logs in **without typing a password** (SSO).
 
 ## Requirements
 
-- **Build:** PowerShell 7+ (uses `ConvertFrom-Markdown`). Check with
-  `$PSVersionTable.PSVersion`.
+- **Build (recommended):** **PowerShell 7+** — run `build.ps1`. It uses the
+  built-in `ConvertFrom-Markdown` (Markdig) for full CommonMark/GFM support.
+  Check your version with `$PSVersionTable.PSVersion`.
+- **Build (fallback):** on machines with only **Windows PowerShell 5.1** (no
+  PowerShell 7), run `build5.ps1` instead. It's the same generator with a small
+  built-in Markdown converter (5.1 lacks `ConvertFrom-Markdown`). It covers the
+  Markdown this project uses, but for full fidelity prefer `build.ps1` on
+  PowerShell 7. Keep `build5.ps1` saved as **UTF-8 with BOM** (5.1 reads BOM-less
+  scripts as ANSI).
 - **Server:** IIS with the *Windows Authentication* module and **ASP.NET 4.x**
   (.NET Framework) enabled.
 - **Only for the access log and completion status:** a reachable SQL Server
