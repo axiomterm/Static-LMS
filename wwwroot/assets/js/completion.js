@@ -1,4 +1,4 @@
-// Completed status (via api/completion.aspx).
+// Completed status (via api/completion.ashx).
 // Works in 2 contexts: course page (complete button) and index (stripe + icon).
 // The API returns { completed: [course_id, ...], user }: a course id is present
 // only if it's completed.
@@ -10,7 +10,7 @@
     var onCoursePage = !!metaCourse;
     var API = (onCoursePage ? '../' : '') + 'api/';
 
-    fetch(API + 'completion.aspx', { credentials: 'same-origin' })
+    fetch(API + 'completion.ashx', { credentials: 'same-origin' })
       .then(function (r) { return r.ok ? r.json() : { completed: [] }; })
       .then(function (data) {
         var done = {};
@@ -27,7 +27,7 @@
     var d = new FormData();
     d.append('action', action);
     d.append('course_id', courseId);
-    return fetch(API + 'completion.aspx', { method: 'POST', body: d, credentials: 'same-origin' })
+    return fetch(API + 'completion.ashx', { method: 'POST', body: d, credentials: 'same-origin' })
       .then(function (r) { if (!r.ok) throw new Error(); return r.json(); });
   }
 

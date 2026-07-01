@@ -13,7 +13,7 @@
   try {
     // credentials:'same-origin' + keepalive: ensures IIS gets the
     // integrated authentication and the request isn't canceled on navigation.
-    fetch('../api/access.aspx', {
+    fetch('../api/access.ashx', {
       method: 'POST',
       body: data,
       credentials: 'same-origin',

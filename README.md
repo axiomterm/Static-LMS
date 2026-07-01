@@ -6,8 +6,8 @@ Course site for internal use. Courses are written in Markdown
 Authentication (SSO against Active Directory). Styled with **Bootstrap**.
 
 The course catalog is **100% static**. Two optional features use **ASP.NET
-(Web Forms) + SQL Server**: the **access log** and the **course completion
-status**.
+(.ashx HTTP handlers) + SQL Server**: the **access log** and the **course
+completion status**.
 
 ## Quick guide
 
@@ -46,7 +46,7 @@ utic_formacion/
    ├─ web.config            Windows Auth + SQL Server connection string + video MIME + cache
    ├─ App_Code/
    │  └─ Db.cs              Shared DB + request helpers (auto-compiled by IIS)
-   ├─ api/                  ASP.NET endpoints (access.aspx, completion.aspx)
+   ├─ api/                  ASP.NET HTTP handlers (access.ashx, completion.ashx)
    └─ assets/
       ├─ css/               bootstrap.min.css
       ├─ js/                filters.js, access.js, completion.js
@@ -124,7 +124,7 @@ To add a new category: edit `categories.json` once and reference it by its slug.
 
 ## Access log
 
-- When a course is opened, `access.js` calls `wwwroot/api/access.aspx`, which logs
+- When a course is opened, `access.js` calls `wwwroot/api/access.ashx`, which logs
   **user + course + date (UTC) + IP + user-agent**.
 - The user is provided by IIS (Windows Auth) via `LOGON_USER`; the client only
   sends the course id.
@@ -133,7 +133,7 @@ To add a new category: edit `categories.json` once and reference it by its slug.
 
 - On each course page, `completion.js` shows the **"Mark as completed"** button,
   which toggles the state directly on click. The state is saved per AD user via
-  `wwwroot/api/completion.aspx` (table `course_completions`).
+  `wwwroot/api/completion.ashx` (table `course_completions`).
 - A row in `course_completions` exists **only** if the user completed the course;
   unmarking deletes it. The GET returns the plain list of completed course ids.
 - On the **index**, each card reflects the state: a **green stripe + ✓** if
@@ -166,7 +166,7 @@ To add a new category: edit `categories.json` once and reference it by its slug.
    - **Disable** "Anonymous Authentication".
    *(The "Windows Authentication" feature must be installed in the IIS role;
    if it's not listed, install it from "Add Roles and Features").*
-4. The endpoints are classic **ASP.NET Web Forms** pages (`.aspx` + `App_Code`) —
+4. The endpoints are **ASP.NET HTTP handlers** (`.ashx` + `App_Code`) —
    no build step, IIS compiles them on the fly. The site's **Application Pool**
    must target **.NET CLR v4.0** (Integrated pipeline). The App Pool identity
    needs access to the SQL Server database (or use SQL auth in the connection
